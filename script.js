@@ -1,8 +1,59 @@
-let a = 1;
+let count = 1;
 let tasks = document.getElementById("tasks");
 let input = document.getElementById("input");
+let container = {};
 
-function add() {
+if (localStorage.getItem("data") !== null) {
+	container = JSON.parse(localStorage.getItem("data"));
+}
+
+function update(object) {
+	tasks.innerHTML = "";
+	for (const [key, value] of Object.entries(object)) {
+		console.log(`Key: ${key}, Value: ${value}`);
+		create(count, key, value);
+		count++;
+	}
+}
+update(container);
+
+function add_task() {
+	container[input.value] = false;
+	create(count, input.value, false);
+	input.value = "";
+	localStorage.setItem("data", JSON.stringify(container));
+}
+
+tasks.addEventListener(
+	"click",
+	(e) => {
+		if (e.target.tagName === "IMG") {
+			let id = e.target.id;
+			// console.log(id);
+			delete container[id];
+			e.target.parentElement.remove();
+			localStorage.setItem("data", JSON.stringify(container));
+		}
+	},
+	false
+);
+
+tasks.addEventListener("change", (e) => {
+	if (e.target.matches(".inp-cbx")) {
+		const taskId =
+			e.target.nextElementSibling.querySelector(".text").textContent;
+		container[taskId] = e.target.checked;
+		localStorage.setItem("data", JSON.stringify(container));
+	}
+});
+
+input.addEventListener("keydown", (event) => {
+	if (event.key === "Enter") {
+		add_task(input.value, false);
+	}
+});
+
+function create(id, text, state) {
 	// Create the task div element
 	let taskDiv = document.createElement("div");
 	taskDiv.classList.add("task");
@@ -14,14 +65,18 @@ function add() {
 	// Create the input element
 	let inputElement = document.createElement("input");
 	inputElement.classList.add("inp-cbx");
-	inputElement.setAttribute("id", `cbx-${a}`);
+	inputElement.setAttribute("id", `cbx-${id}`);
 	inputElement.setAttribute("type", "checkbox");
 	inputElement.style.display = "none";
+	if (state == true) {
+		inputElement.checked = true;
+	}
+	console.log(state);
 
 	// Create the label element
 	let labelElement = document.createElement("label");
 	labelElement.classList.add("cbx");
-	labelElement.setAttribute("for", `cbx-${a}`);
+	labelElement.setAttribute("for", `cbx-${id}`);
 
 	// Create the span element for checkbox icon
 	let spanCheckboxIcon = document.createElement("span");
@@ -45,8 +100,7 @@ function add() {
 	// Create the span element for text
 	let spanText = document.createElement("span");
 	spanText.classList.add("text");
-	spanText.textContent = input.value;
-	input.value = "";
+	spanText.textContent = text;
 
 	labelElement.appendChild(spanCheckboxIcon);
 	labelElement.appendChild(spanText);
@@ -56,31 +110,11 @@ function add() {
 
 	// Create the cancel image
 	let cancelImage = document.createElement("img");
+	cancelImage.setAttribute("id", `${text}`);
 	cancelImage.classList.add("cancel");
 	cancelImage.setAttribute("src", "Resourses/close.png");
 	cancelImage.setAttribute("alt", "");
-
-	// Append all elements to the task div
 	taskDiv.appendChild(taskTextDiv);
 	taskDiv.appendChild(cancelImage);
-
-	// Append the task div to a container element (e.g., body)
 	tasks.appendChild(taskDiv);
-	a++;
 }
-
-tasks.addEventListener(
-	"click",
-	(e) => {
-		if (e.target.tagName === "IMG") {
-			e.target.parentElement.remove();
-		}
-	},
-	false
-);
-
-input.addEventListener("keydown", (event) => {
-	if (event.key === "Enter") {
-		add();
-	}
-});
