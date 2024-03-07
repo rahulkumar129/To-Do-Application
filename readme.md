@@ -1,6 +1,7 @@
 # To-Do List Web Application
 
 This is a simple To-Do List web application built using HTML, CSS, and JavaScript. It allows users to add tasks, mark them as complete, and remove them from the list. You can view the Weather Card project live [here](https://rahulkumar129.github.io/Weather-Card/).
+![Card Image](img1.png)
 
 ## Features
 
