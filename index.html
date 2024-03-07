@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>To Do list</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Madimi+One&family=Roboto&family=Slackside+One&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="shortcut icon" href="" type="image/x-icon" />
+		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="extra.css" />
+	</head>
+	<body>
+		<div class="card">
+			<div class="heading">
+				<div class="list_title">To-Do List</div>
+				<img class="list_icon" src="Resourses/list.png" alt="" />
+			</div>
+			<div class="search">
+				<input
+					class="search_input"
+					id="input"
+					placeholder="Add Your Task"
+					type="text"
+					spellcheck="false"
+				/>
+				<div class="button" onclick="add()">ADD</div>
+			</div>
+			<div class="tasks" id="tasks"></div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>
